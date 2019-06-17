@@ -155,8 +155,19 @@ public class JZTextureView extends TextureView {
                     height = parentHeight;
                 }
             }else if (Jzvd.VIDEO_IMAGE_DISPLAY_TYPE == Jzvd.VIDEO_IMAGE_DISPLAY_TYPE_WIDTH_FILL_HEIGHT_WRAP){
-                width=parentWidth;
-                height=(int) (((double) parentWidth/ (double) videoWidth  * (double) videoHeight));
+                if (videoHeight>videoWidth){
+                    if (((double) videoHeight / videoWidth)>=((double) parentHeight / parentWidth)){
+                        height = (int) (((double) parentWidth / (double) videoWidth * (double) videoHeight));
+                        width = parentWidth;
+                    }else {
+                        height = parentHeight;
+                        width = (int) (((double) parentHeight / (double) videoHeight * (double) videoWidth));
+                    }
+                }else {
+                    width=parentWidth;
+                    height=(int) (((double) parentWidth/ (double) videoWidth  * (double) videoHeight));
+                }
+
             }
         }
         setMeasuredDimension(width, height);

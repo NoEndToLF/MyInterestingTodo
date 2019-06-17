@@ -59,9 +59,8 @@ public class JZMediaIjk extends JZMediaInterface implements IMediaPlayer.OnPrepa
                 ijkMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 ijkMediaPlayer.setScreenOnWhilePlaying(true);
                 ijkMediaPlayer.prepareAsync();
-
                 ijkMediaPlayer.setSurface(new Surface(jzvd.textureView.getSurfaceTexture()));
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -93,17 +92,14 @@ public class JZMediaIjk extends JZMediaInterface implements IMediaPlayer.OnPrepa
     public long getCurrentPosition() {
         return ijkMediaPlayer.getCurrentPosition();
     }
-
     @Override
     public long getDuration() {
         return ijkMediaPlayer.getDuration();
     }
-
     @Override
     public void setVolume(float leftVolume, float rightVolume) {
         ijkMediaPlayer.setVolume(leftVolume, rightVolume);
     }
-
     @Override
     public void setSpeed(float speed) {
         ijkMediaPlayer.setSpeed(speed);

@@ -18,6 +18,10 @@ public class DouyinDatasUtil {
         videoList.add(new DouyinVideoModel("",
                 "https://p1.pstatp.com/large/4bea0014e31708ecb03e.jpeg",
                 "https://aweme.snssdk.com/aweme/v1/play/?video_id=374e166692ee4ebfae030ceae117a9d0&line=0&ratio=720p&media_type=4&vr_type=0"));
+        videoList.add(new DouyinVideoModel("",
+                "http://jzvd-pic.nathen.cn/jzvd-pic/1bb2ebbe-140d-4e2e-abd2-9e7e564f71ac.png",
+                "http://jzvd.nathen.cn/342a5f7ef6124a4a8faf00e738b8bee4/cf6d9db0bd4d41f59d09ea0a81e918fd-5287d2089db37e62345123a1be272f8b.mp4"));
+
 
         videoList.add(new DouyinVideoModel("",
                 "https://p1.pstatp.com/large/4bb500130248a3bcdad0.jpeg",
