@@ -1,28 +1,24 @@
 package com.example.douyin.video.adapter;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.Request;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.example.baselibrary.IApplicationInit;
 import com.example.baselibrary.glide.MyCenterCrop;
 import com.example.douyin.R;
 import com.example.douyin.application.MyApplicationInitImpl;
+import com.example.douyin.util.ObjectAnimatorUtil;
 import com.example.douyin.video.player.MyDouyinVideoPlayer;
 import com.example.douyin.video.model.DouyinVideoModel;
-import com.example.douyin.widget.LoveLayout;
+import com.example.douyin.widget.TikTokLayout;
 
 import java.util.List;
 
@@ -42,26 +38,35 @@ public class DouyinVideoAdapter extends BaseQuickAdapter<DouyinVideoModel,BaseVi
         Glide.with(mContext)
                 .load(item.getImgUrl()).
                 transform(new MyCenterCrop()).into(((MyDouyinVideoPlayer)helper.getView(R.id.videoplayer)).thumbImageView);
-        ((LoveLayout)helper.getView(R.id.love_parent)).setOnLikeListener(new LoveLayout.OnLikeListener() {
+        ImageView imageView=((ImageView)helper.getView(R.id.iv_start));
+        ((TikTokLayout)helper.getView(R.id.love_parent)).setOnLikeListener(new TikTokLayout.OnLikeListener() {
             @Override
             public void onLike() {
-                Log.v("haha","onDoubleClick");
             }
-
             @Override
             public void onClick() {
-                Log.v("haha","onClick");
-
+                if (((MyDouyinVideoPlayer)helper.getView(R.id.videoplayer)).mediaInterface.isPlaying()){
+                ((MyDouyinVideoPlayer)helper.getView(R.id.videoplayer)).mediaInterface.pause();
+                    imageView.setVisibility(View.VISIBLE);
+                    AnimatorSet animatorSet = new AnimatorSet();
+                    animatorSet.play(ObjectAnimatorUtil.scaleAni(imageView, "scaleX", 1.5f, 1f, 100L, 0L))
+                            .with(ObjectAnimatorUtil.scaleAni(imageView, "scaleY", 1.5f, 1f, 100l, 0l))
+                            .with(ObjectAnimatorUtil.alphaAni(imageView, 0F, 1F, 100l, 0L));
+                    animatorSet.start();
+                }
+                else {
+                    AnimatorSet animatorSet = new AnimatorSet();
+                    animatorSet.play(ObjectAnimatorUtil.alphaAni(imageView, 1F, 0F, 100l, 0L));
+                    animatorSet.start();
+                    ((MyDouyinVideoPlayer)helper.getView(R.id.videoplayer)).mediaInterface.start();
+                }
             }
 
             @Override
             public void onLongPress() {
-                Log.v("haha","onLongPress");
-
+                Toast.makeText(mContext, "长按事件", Toast.LENGTH_SHORT).show();
             }
         });
-        if (helper.getAdapterPosition()==0){
-            ((MyDouyinVideoPlayer)helper.getView(R.id.videoplayer)).startVideo();
-        }
+
     }
 }
