@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.douyin.widget.TikTokLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/love_parent"
+    tools:context=".DouyinActivity">
+    <ImageView
+        android:id="@+id/iv_thumb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/douyin"
+        android:background="#000000"
+        />
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@mipmap/play"
+        android:visibility="gone"
+        android:id="@+id/iv_start"
+        android:layout_gravity="center"/>
+</com.example.douyin.widget.TikTokLayout>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.myinterestingtodo">
+    package="com.example.myinterestingtodo"
+    >
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <meta-data
@@ -23,7 +24,7 @@
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/MyAppTheme"
-        android:appComponentFactory="static"
+        android:appComponentFactory="aa"
         tools:replace="android:appComponentFactory,android:theme"
         >
         <activity android:name=".MainActivity">

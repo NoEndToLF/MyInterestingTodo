@@ -24,14 +24,14 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     api 'com.danikula:videocache:2.7.1'
     //# 必选，可兼容市面上绝大部分设备
-    api 'com.github.dueeeke.dkplayer:dkplayer-java:2.5.2'
-    api 'com.github.dueeeke.dkplayer:dkplayer-armv7a:2.5.2'
+    api 'com.github.dueeeke.dkplayer:dkplayer-java:2.5.7'
+    api 'com.github.dueeeke.dkplayer:dkplayer-armv7a:2.5.7'
 
     // # 可选，用于兼容一些其他的CPU架构
-    api 'com.github.dueeeke.dkplayer:dkplayer-armv5:2.5.2'
-    api 'com.github.dueeeke.dkplayer:dkplayer-arm64:2.5.2'
-    api 'com.github.dueeeke.dkplayer:dkplayer-x86:2.5.2'
-    api 'com.github.dueeeke.dkplayer:dkplayer-x86_64:2.5.2'
+    api 'com.github.dueeeke.dkplayer:dkplayer-armv5:2.5.7'
+    api 'com.github.dueeeke.dkplayer:dkplayer-arm64:2.5.7'
+    api 'com.github.dueeeke.dkplayer:dkplayer-x86:2.5.7'
+    api 'com.github.dueeeke.dkplayer:dkplayer-x86_64:2.5.7'
 }
 
 

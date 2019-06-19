@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
 import com.example.douyin.DouyinActivity;
+import com.example.douyin.tiktok.TikTokActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_douyin)
     public void onViewClicked() {
-        startActivity(new Intent(this, DouyinActivity.class));
+//        startActivity(new Intent(this, DouyinActivity.class));
+        startActivity(new Intent(this, TikTokActivity.class));
     }
 }

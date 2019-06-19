@@ -76,32 +76,7 @@ public class DouyinActivity extends AppCompatActivity {
             }
 
         });
-//        snapHelper=new PagerSnapHelper();
-//        snapHelper.attachToRecyclerView(recycleVideo);
-//        recycleVideo.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                switch (newState) {
-//                    case RecyclerView.SCROLL_STATE_IDLE://停止滚动
-//                        View view = snapHelper.findSnapView(linearLayoutManager);
-//                        RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
-//                        if (viewHolder != null && viewHolder instanceof BaseViewHolder) {
-//                            if (((BaseViewHolder)viewHolder).getAdapterPosition()!=position) {
-//                                Jzvd.releaseAllVideos();
-//                                ((MyDouyinVideoPlayer) ((BaseViewHolder) viewHolder).getView(R.id.videoplayer)).startVideo();
-//                            }
-//                        }
-//                        position=((BaseViewHolder)viewHolder).getAdapterPosition();
-//                        break;
-//                    case RecyclerView.SCROLL_STATE_DRAGGING://拖动
-//                        break;
-//                    case RecyclerView.SCROLL_STATE_SETTLING://惯性滑动
-//                        break;
-//                }
-//            }
-//        });
     }
-
     private void play(View view) {
         RecyclerView.ViewHolder viewHolder = recycleVideo.getChildViewHolder(view);
         ((MyDouyinVideoPlayer) ((BaseViewHolder) viewHolder).getView(R.id.videoplayer)).startVideo();
