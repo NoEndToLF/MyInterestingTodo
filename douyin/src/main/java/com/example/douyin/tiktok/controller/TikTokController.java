@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -13,13 +12,18 @@ import android.widget.Toast;
 import com.dueeeke.videoplayer.controller.BaseVideoController;
 import com.dueeeke.videoplayer.player.IjkVideoView;
 import com.example.douyin.R;
+import com.example.douyin.tiktok.widget.MyVolumView;
 import com.example.douyin.util.ObjectAnimatorUtil;
-import com.example.douyin.widget.TikTokLayout;
+import com.example.douyin.tiktok.widget.TikTokLayout;
 
 public class TikTokController extends BaseVideoController {
 
     private ImageView imageViewThumb,imageViewStart;
     private TikTokLayout tikTokLayout;
+
+
+
+    private MyVolumView myVolumView;
     private boolean isClickPause;
     public TikTokController(@NonNull Context context) {
         super(context);
@@ -32,6 +36,9 @@ public class TikTokController extends BaseVideoController {
     public TikTokController(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+    public MyVolumView getMyVolumView() {
+        return myVolumView;
+    }
     public ImageView getImageViewThumb() {
         return imageViewThumb;
     }
@@ -41,6 +48,8 @@ public class TikTokController extends BaseVideoController {
         imageViewThumb=(ImageView)mControllerView.findViewById(R.id.iv_thumb);
         imageViewStart=(ImageView)mControllerView.findViewById(R.id.iv_start);
         tikTokLayout=(TikTokLayout)mControllerView.findViewById(R.id.love_parent);
+        myVolumView=(MyVolumView) mControllerView.findViewById(R.id.view_volum);
+        myVolumView.setVisibility(View.GONE);
         tikTokLayout.setOnLikeListener(new TikTokLayout.OnLikeListener() {
             @Override
             public void onLike() {

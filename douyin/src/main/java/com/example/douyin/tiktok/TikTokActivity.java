@@ -1,14 +1,24 @@
 package com.example.douyin.tiktok;
 
+import android.content.Context;
+import android.content.IntentFilter;
+import android.media.AudioManager;
+import android.media.VolumeAutomation;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -20,6 +30,7 @@ import com.example.douyin.application.MyApplicationInitImpl;
 import com.example.douyin.tiktok.adapter.TikTokVideoAdapter;
 import com.example.douyin.tiktok.controller.TikTokController;
 import com.example.douyin.tiktok.ijkvideo.MyIjkVideoView;
+import com.example.douyin.tiktok.volum.MyVolumReceiver;
 import com.example.douyin.util.DouyinDatasUtil;
 import com.example.douyin.video.adapter.DouyinVideoAdapter;
 import com.example.douyin.video.model.DouyinVideoModel;
@@ -28,11 +39,15 @@ import com.example.douyin.video.recycler.OnVideoScrollListener;
 import com.example.douyin.video.recycler.ViewPagerLayoutManager;
 import com.gyf.immersionbar.ImmersionBar;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.jzvd.Jzvd;
+import cn.jzvd.JzvdStd;
 
 public class TikTokActivity extends AppCompatActivity {
     @BindView(R2.id.recycle_video)
@@ -45,6 +60,21 @@ public class TikTokActivity extends AppCompatActivity {
     private int mCurrentPosition;
     private MyIjkVideoView mIjkVideoView;
     private TikTokController mTikTokController;
+    private AudioManager audioManager;
+    private MyVolumReceiver myVolumReceiver;
+    private Timer volumTimer;
+    private DismissVolumViewTimerTask dismissVolumViewTimerTask;
+    private int volumCurrent,volumMax;
+    private  int WHAT_DISMISS_VOLUMVIEW=11;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what==WHAT_DISMISS_VOLUMVIEW){
+                mTikTokController.getMyVolumView().setVisibility(View.GONE);
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,15 +87,88 @@ public class TikTokActivity extends AppCompatActivity {
                 swVideoParent.setRefreshing(false);
             }
         });
+        initAudioManager();
+        registerVolumReceiver();
         initVideoPlayer();
         initRecyclerView();
     }
 
+    private void registerVolumReceiver() {
+        myVolumReceiver=new MyVolumReceiver(audioManager);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.media.VOLUME_CHANGED_ACTION");
+        registerReceiver(myVolumReceiver, filter);
+        myVolumReceiver.setOnVolumChangeListener(new MyVolumReceiver.onVolumChangeListener() {
+            @Override
+            public void onVolumChange(int volume) {
+                Log.v("volume=",volume+"");
+            }
+        });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode){
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                downVolum();
+                showVolumView();
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                upVolum();
+                showVolumView();
+                return true;
+                default:
+                    break;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    private void downVolum() {
+        if (volumCurrent>0){
+            volumCurrent--;
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,volumCurrent,0);
+            mTikTokController.getMyVolumView().setCurrentVolum(volumCurrent);
+        }
+
+    }
+    private void upVolum() {
+        if (volumCurrent<volumMax){
+            volumCurrent++;
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,volumCurrent,0);
+            mTikTokController.getMyVolumView().setCurrentVolum(volumCurrent);
+        }
+    }
+
+    private void showVolumView() {
+        if (volumCurrent==0)return;
+        mTikTokController.getMyVolumView().setVisibility(View.VISIBLE);
+        cancleTimer();
+        volumTimer = new Timer();
+        dismissVolumViewTimerTask = new DismissVolumViewTimerTask();
+        volumTimer.schedule(dismissVolumViewTimerTask, 2500);
+    }
+
+    private void cancleTimer() {
+        if (volumTimer != null) {
+            volumTimer.cancel();
+        }
+        if (dismissVolumViewTimerTask != null) {
+            dismissVolumViewTimerTask.cancel();
+        }
+    }
+
+
+    private void initAudioManager() {
+        audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+        volumMax=audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        volumCurrent=audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+    }
     private void initVideoPlayer() {
         mIjkVideoView = new MyIjkVideoView(this);
         mIjkVideoView.setLooping(true);
         mTikTokController = new TikTokController(this);
         mIjkVideoView.setVideoController(mTikTokController);
+        mTikTokController.getMyVolumView().setMaxVolum(volumMax);
+        mTikTokController.getMyVolumView().setCurrentVolum(volumCurrent);
     }
 
     private void initRecyclerView() {
@@ -129,6 +232,16 @@ public class TikTokActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+        unregisterReceiver(myVolumReceiver);
         mIjkVideoView.release();
+    }
+    public class DismissVolumViewTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            handler.sendEmptyMessage(WHAT_DISMISS_VOLUMVIEW);
+
+        }
     }
 }

@@ -1,10 +1,7 @@
 package com.example.douyin.video.adapter;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -18,7 +15,7 @@ import com.example.douyin.application.MyApplicationInitImpl;
 import com.example.douyin.util.ObjectAnimatorUtil;
 import com.example.douyin.video.player.MyDouyinVideoPlayer;
 import com.example.douyin.video.model.DouyinVideoModel;
-import com.example.douyin.widget.TikTokLayout;
+import com.example.douyin.tiktok.widget.TikTokLayout;
 
 import java.util.List;
 
