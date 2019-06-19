@@ -186,6 +186,7 @@ public class TikTokActivity extends AppCompatActivity {
             public void onVideoToRelease(View view, int position) {
                 if (mCurrentPosition == position) {
                   mIjkVideoView.release();
+                  mTikTokController.getMyVolumView().setVisibility(View.GONE);
                 }
             }
 
