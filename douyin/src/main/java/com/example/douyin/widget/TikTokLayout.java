@@ -22,17 +22,20 @@ import com.example.douyin.R;
 import com.example.douyin.util.ObjectAnimatorUtil;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 import java.util.Random;
 
 public class TikTokLayout extends FrameLayout {
     private float[] num = new float[]{-35f, -25f, 0f, 25f, 35f};
     private long[] mHits = new long[2];
     private int  downX,downY ;
+    private int  imageCount ;
     private long downTime;
     private int clickCount;
     private MyHandler handler;
     private boolean isMove;
 public void showLikeView(MotionEvent e){
+    imageCount++;
     final ImageView imageView = new ImageView(getContext());
     int width= (int)(getWidth()/2.7f);
     int height=(int)(getWidth()/2.7f);
@@ -58,20 +61,22 @@ public void showLikeView(MotionEvent e){
             .with(ObjectAnimatorUtil.scaleAni(imageView, "scaleX", 0.9f, 1F, 50L, 100L))
 //                    //缩放动画，Y轴0.9倍缩放至
             .with(ObjectAnimatorUtil.scaleAni(imageView, "scaleY", 0.9f, 1F, 50L, 100L))
-//                    //位移动画，Y轴从0上移至600
-            .with(ObjectAnimatorUtil.translationY(imageView, 0F, (float) -width*1.7f, 800L, 500L))
+//                    //位移动画，Y轴从0上移至
+            .with(ObjectAnimatorUtil.translationY(imageView, 0F, (float) -width*1.5f, 500L, 500L))
 //                    //透明动画，从1-0
             .with(ObjectAnimatorUtil.alphaAni(imageView, 1F, 0F, 500L, 500L))
-//                    //缩放动画，X轴1至3倍
-            .with(ObjectAnimatorUtil.scaleAni(imageView, "scaleX", 1F, 1.8f, 700L, 500L))
-//                    //缩放动画，Y轴1至3倍
-            .with(ObjectAnimatorUtil.scaleAni(imageView, "scaleY", 1F, 1.8f, 700L, 500L));
+//                    //缩放动画，X轴1至1.8倍
+            .with(ObjectAnimatorUtil.scaleAni(imageView, "scaleX", 1F, 1.8f, 500L, 500L))
+//                    //缩放动画，Y轴1至1.8倍
+            .with(ObjectAnimatorUtil.scaleAni(imageView, "scaleY", 1F, 1.8f, 500L, 500L));
     animatorSet.start();
     animatorSet.addListener(new AnimatorListenerAdapter(){
         @Override
         public void onAnimationEnd(Animator animation) {
             super.onAnimationEnd(animation);
             removeViewInLayout(imageView);
+            imageCount--;
+            Log.v("imageCount=",imageCount+"");
         }
     });
 
@@ -110,7 +115,8 @@ public void showLikeView(MotionEvent e){
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (!isMove){
+                        if (!isMove&&imageCount<=1){
+
                         onLikeListener.onLongPress();
                         handler.removeCallbacksAndMessages(null);
                         }
@@ -142,7 +148,7 @@ public void showLikeView(MotionEvent e){
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (clickCount == 1) {
+                                if (clickCount == 1&&imageCount<=1) {
                                     onLikeListener.onClick();
                                 }
                                 handler.removeCallbacksAndMessages(null);
