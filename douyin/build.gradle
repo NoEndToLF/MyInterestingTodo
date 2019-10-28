@@ -40,5 +40,4 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     implementation 'com.jakewharton:butterknife:9.0.0-rc2'//注解
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
-
 }

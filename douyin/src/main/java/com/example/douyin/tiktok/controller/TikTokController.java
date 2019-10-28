@@ -20,9 +20,6 @@ public class TikTokController extends BaseVideoController {
 
     private ImageView imageViewThumb,imageViewStart;
     private TikTokLayout tikTokLayout;
-
-
-
     private MyVolumView myVolumView;
     private boolean isClickPause;
     public TikTokController(@NonNull Context context) {

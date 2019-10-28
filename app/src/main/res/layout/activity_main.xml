@@ -11,8 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:text="抖音"
-        android:id="@+id/btn_douyin"
+        android:text="沉浸式抖音效果"
+        android:id="@+id/btn_douyin_one"
         />
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="圆角式抖音效果"
+        android:id="@+id/btn_douyin_two"
+        />
 </LinearLayout>

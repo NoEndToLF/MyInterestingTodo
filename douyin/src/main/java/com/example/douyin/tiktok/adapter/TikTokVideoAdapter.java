@@ -1,6 +1,7 @@
 package com.example.douyin.tiktok.adapter;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -26,5 +27,6 @@ public class TikTokVideoAdapter extends BaseQuickAdapter<DouyinVideoModel,BaseVi
         Glide.with(mContext)
                 .load(item.getImgUrl()).
                 transform(new MyCenterCrop()).into(((ImageView)helper.getView(R.id.iv_thumb)));
+        Log.v("position=",helper.getAdapterPosition()+"");
     }
 }

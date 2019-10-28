@@ -25,4 +25,5 @@
         android:layout_gravity="bottom"
         android:id="@+id/view_volum"
         android:layout_height="1.5dp" />
+
 </com.example.douyin.tiktok.widget.TikTokLayout>

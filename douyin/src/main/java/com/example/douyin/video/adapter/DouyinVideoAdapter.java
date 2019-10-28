@@ -26,7 +26,6 @@ public class DouyinVideoAdapter extends BaseQuickAdapter<DouyinVideoModel,BaseVi
     public DouyinVideoAdapter(int layoutResId, @Nullable List data) {
         super(layoutResId, data);
     }
-
     @Override
     protected void convert(BaseViewHolder helper, DouyinVideoModel item) {
         String proxyUrl = MyApplicationInitImpl.getProxy().getProxyUrl(item.getVideoUrl());
